@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'maven-publish'
+apply plugin: "java-library"
+
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+
+    compileOnly "org.jetbrains:annotations:24.0.1"
+    testImplementation 'junit:junit:4.13.1'
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
+}
+group = 'com.github.Zelaux'
+version = '1.0'
+
+tasks.withType(JavaCompile).configureEach {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.encoding = "UTF-8"
+}
+repositories {
+    mavenCentral()
+}
+
+compileJava {
+    options.fork = true
+    options.incremental = true
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifactId = project.getName()
+//                name
+        }
+    }
+}
